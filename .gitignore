@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Secrets (API keys, never commit these)
+.env
+*.env
+secrets.*
+
+# Local database files (recreated by the app)
+*.db
+*.sqlite
+*.sqlite3
+
+# Test and tool caches
+.pytest_cache/
+.ipynb_checkpoints/
+.mypy_cache/
+
+# Editor and system files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
