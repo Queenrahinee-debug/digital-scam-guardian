@@ -25,7 +25,7 @@ def evaluate_message_risk(sender, message_text, upi_mentioned=None):
     else:
         link_display_value = "Not applicable (no link found)"
         link_desc = "No hyperlinks detected in the message text to analyze."
-        link_color_style = "#94a3b8" # neutral grey
+        link_color_style = "#94a3b8"
         
     try:
         vectorizer, model = train_scam_classifier()
@@ -34,9 +34,7 @@ def evaluate_message_risk(sender, message_text, upi_mentioned=None):
     except Exception as e:
         ml_prob = 0.0
         
-    # Multi-layered weight distribution: Rules (40%), Sender History (30%), ML (20%), Links (10%)
     raw_penalty = (rule_result["score"] * 0.4) + (sender_result["sender_score"] * 0.3) + (link_score * 0.1) + (int(ml_prob * 30) * 0.2)
-    
     reputation_score = max(0, min(100, 100 - int(raw_penalty * 1.5)))
     
     rule_safety = max(0, 100 - int(rule_result["score"] * 1.2))
@@ -54,27 +52,27 @@ def evaluate_message_risk(sender, message_text, upi_mentioned=None):
         return 99
 
     sorted_reasons = sorted(list(set(all_reasons)), key=get_priority)
-    action = rule_result["recommended_action"]
     
-    if raw_penalty >= 45:
+    # Dynamic risk level synchronized with reputation score ranges
+    if reputation_score < 40:
         risk_level = "HIGH RISK"
         badge_class = "badge-high"
-    elif raw_penalty >= 20:
+        score_color = "red"
+        score_label = "High Risk"
+    elif reputation_score < 70:
         risk_level = "SUSPICIOUS"
         badge_class = "badge-medium"
-    else:
-        risk_level = "LOW RISK"
-        badge_class = "badge-low"
-        
-    if reputation_score >= 70:
-        score_color = "green"
-        score_label = "Safe"
-    elif reputation_score >= 40:
         score_color = "orange"
         score_label = "Moderate Risk"
     else:
-        score_color = "red"
-        score_label = "High Risk"
+        risk_level = "LOW RISK"
+        badge_class = "badge-low"
+        score_color = "green"
+        score_label = "Safe"
+
+    action = rule_result["recommended_action"]
+    # Fix pronoun/name references dynamically
+    action = action.replace("Mom", sender).replace("her usual", "their usual")
 
     return {
         "sender": sender,
