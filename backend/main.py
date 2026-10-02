@@ -1,34 +1,36 @@
+from pathlib import Path
+from typing import Optional
+
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
-from pydantic import BaseModel
-import os
+from pydantic import BaseModel, Field
 
-# Import our unified risk engine
 from detector.risk_engine import evaluate_message_risk
 
-app = FastAPI(title="Digital Scam Guardian", version="1.0")
+FRONTEND = Path(__file__).resolve().parent.parent / "frontend" / "index.html"   # works from any folder
 
-# Request body model for API analysis
+app = FastAPI(title="Digital Scam Guardian", version="1.1")
+
+
 class MessagePayload(BaseModel):
-    sender: str
-    message: str
-    upi_mentioned: str = None
+    sender: str = Field(min_length=1, max_length=100)
+    message: str = Field(min_length=1, max_length=2000)    # rejects empty or huge input
+    upi_mentioned: Optional[str] = None                     # optional; only used if it appears in the message
+
 
 @app.get("/", response_class=HTMLResponse)
 def read_root():
-    """Serves the elderly-first frontend interface."""
-    html_path = os.path.join("frontend", "index.html")
-    if os.path.exists(html_path):
-        with open(html_path, "r", encoding="utf-8") as f:
-            return f.read()
-    return "Frontend index.html not found. Please check your project structure."
+    if FRONTEND.exists():
+        return FRONTEND.read_text(encoding="utf-8")
+    return "frontend/index.html not found."
+
+
+@app.get("/api/health")
+def health():
+    return {"status": "ok"}
+
 
 @app.post("/api/analyze")
 def analyze_endpoint(payload: MessagePayload):
-    """API endpoint that runs the unified risk evaluation engine."""
-    result = evaluate_message_risk(
-        sender=payload.sender,
-        message_text=payload.message,
-        upi_mentioned=payload.upi_mentioned
-    )
-    return result
+    # The message is analysed in memory and is neither stored nor logged.
+    return evaluate_message_risk(payload.sender, payload.message, payload.upi_mentioned)

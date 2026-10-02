@@ -1,54 +1,70 @@
+"""Rule-based content analysis.
+
+Every rule is one line: (signal name, regex, points, plain-language reason).
+Regexes use word boundaries (\b) so "rs" no longer matches inside "hours".
+"""
 import re
 
-def analyze_message(message_text, sender="Unknown"):
-    score = 0
-    reasons = []
-    text_lower = message_text.lower()
-    
-    # 1. Urgency Indicators (Separated cleanly)
-    urgency_keywords = ["immediately", "urgent", "today", "hurry", "urgently"]
-    if any(word in text_lower for word in urgency_keywords):
-        score += 30
-        reasons.append("Uses high-pressure or urgent language.")
-        
-    # Account threats (Separate rule)
-    threat_keywords = ["blocked", "closed", "expire", "suspension"]
-    if any(word in text_lower for word in threat_keywords):
-        score += 30
-        reasons.append("Threatens account restriction or closure.")
-        
-    # 2. Financial Request
-    financial_keywords = ["upi", "fee", "fees", "rs", "rupees", "send money", "transfer", "pay"]
-    if any(word in text_lower for word in financial_keywords):
-        score += 35
-        reasons.append("Requests a financial transaction or payment.")
-        
-    # 3. Credentials / KYC
-    credential_keywords = ["kyc", "otp", "pin", "password", "bank account"]
-    if any(word in text_lower for word in credential_keywords):
-        score += 30
-        reasons.append("Mentions sensitive actions like KYC updates or credentials.")
-        
-    # 4. Secrecy / Isolation
-    secrecy_keywords = ["don't call", "do not call", "dont call", "keep this secret"]
-    if any(word in text_lower for word in secrecy_keywords):
-        score += 25
-        reasons.append("Instructs you not to verify or call back.")
+_RULES = [
+    ("urgency",
+     r"\b(?:immediately|urgent(?:ly)?|right now|asap|hurry|emergency|last warning|jaldi|turant)\b"
+     r"|within \d+ (?:minutes?|hours?)",
+     25, "Uses high-pressure or urgent language."),
+    ("threat",
+     r"\baccount\b.{0,40}\b(?:blocked|suspended|closed|deactivated)\b"
+     r"|\bwill be (?:blocked|closed|suspended)\b",
+     30, "Threatens account restriction or closure."),
+    ("financial",
+     r"\bupi\b|\bpaytm\b|\bphonepe\b|\bgpay\b|\bgoogle pay\b|\btransfer\b|\bmoney\b|\bfees?\b|\bpaise\b"
+     r"|(?:₹|\brs\.?|\binr)\s*\d|\b\d[\d,]*\s*(?:rs|rupees?|inr)\b",
+     30, "Requests a financial transaction or payment."),
+    ("credential_request",
+     r"\b(?:send|share|tell|give|provide|enter|reply with|forward)\b.{0,30}\b(?:otp|pin|password|cvv)\b",
+     40, "Asks you to share a password, PIN or OTP."),
+    ("kyc", r"\bkyc\b", 20, "Mentions a KYC update, a common scam pretext."),
+    ("secrecy",
+     r"\bdo(?:n[’']?t| not) (?:call|tell)\b|\bkeep (?:this )?(?:a )?secret\b|\bbaad mein call\b|\bmat batana\b",
+     25, "Tells you not to call back or not to tell anyone."),
+    ("authority",
+     r"\b(?:police|cbi|trai|customs|arrest|warrant|money laundering|digital arrest)\b",
+     25, "Claims to be police or an official body, or threatens arrest."),
+    ("prize",
+     r"\byou have won\b|\bwinner\b|\blottery\b|\blucky draw\b|\bprize\b|\bcongratulations\b",
+     30, "Claims you have won a prize."),
+]
+_COMPILED = [(n, re.compile(p, re.IGNORECASE), pts, why) for n, p, pts, why in _RULES]
 
+
+def analyze_message(message_text, sender="Unknown"):
+    score, reasons, signals = 0, [], []
+
+    for name, pattern, points, reason in _COMPILED:
+        if pattern.search(message_text):
+            score += points
+            reasons.append(reason)
+            signals.append(name)
+
+    # Signals are stronger together: money + pressure/secrecy is the classic scam shape.
+    if "financial" in signals and {"urgency", "secrecy"} & set(signals):
+        score += 15
+        reasons.append("Combines a money request with pressure or secrecy, a classic scam pattern.")
+
+    score = min(score, 100)
     if score >= 60:
         risk_level = "HIGH"
-        action = f"This looks unusual for {sender}. Her account may be compromised, or someone may be pretending to be her. Call {sender} directly on her usual phone number before taking any action."
     elif score >= 30:
         risk_level = "SUSPICIOUS"
-        action = f"Proceed with caution. Verify independently with {sender} through trusted channels."
     else:
         risk_level = "LOW"
-        action = "No major risk indicators detected."
-        
+
+    # Neutral wording: the risk engine writes the final, sender-aware advice.
+    action = f"Verify this message from {sender} on a number or channel you already trust before acting."
+
     return {
         "sender": sender,
         "score": score,
         "risk_level": risk_level,
         "reasons": reasons,
-        "recommended_action": action
+        "signals": signals,
+        "recommended_action": action,
     }

@@ -158,6 +158,8 @@
 </div>
 
 <script>
+    const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
     async function checkMessage() {
         const sender = document.getElementById("senderInput").value;
         const message = document.getElementById("messageInput").value;
@@ -171,19 +173,16 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     sender: sender,
-                    message: message,
-                    upi_mentioned: message.toLowerCase().includes("upi") ? "unfamiliar-id@upi" : null
+                    message: message
                 })
             });
 
             const data = await response.json();
 
             let boxClass = "warning-box";
-            let headerTitle = "Don't send money yet";
             let headerColor = "#d35400";
             if (data.risk_level === "LOW RISK") {
                 boxClass = "safe-box";
-                headerTitle = "Message Looks Safe";
                 headerColor = "#27ae60";
             }
 
@@ -191,17 +190,17 @@
             if (data.score_color === "orange") scoreColorCss = "#e67e22";
             if (data.score_color === "red") scoreColorCss = "#c53030";
 
-            let reasonsList = data.reasons.map(reason => `<li>${reason}</li>`).join("");
-
+            let reasonsList = data.reasons.map(reason => `<li>${esc(reason)}</li>`).join("");
             let linkColor = data.technical_breakdown.link_score.color_style || "#27ae60";
+            let headerTitle = data.headline;
 
             resultArea.innerHTML = `
                 <div class="${boxClass}">
                     <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                        <h2 style="margin:0; color:${headerColor}; font-size: 24px;">⚠ ${headerTitle}</h2>
+                        <h2 style="margin:0; color:${headerColor}; font-size: 24px;">⚠ ${esc(headerTitle)}</h2>
                         <span class="badge ${data.badge_class}">${data.risk_level}</span>
                     </div>
-                    <p style="font-size: 19px; font-weight: bold; color: #2c3e50; margin-top: 15px;">${data.recommended_action}</p>
+                    <p style="font-size: 19px; font-weight: bold; color: #2c3e50; margin-top: 15px;">${esc(data.recommended_action)}</p>
                     <p style="margin-bottom: 5px;"><strong>Why this looks unusual:</strong></p>
                     <ul>
                         ${reasonsList.length > 0 ? reasonsList : "<li>No specific risk flags triggered.</li>"}
