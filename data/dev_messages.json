@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "sender": "BankAlert",
+    "message": "Dear customer, your SBI bank account is blocked today. Click http://sbi-update-kyc.com to update your KYC immediately or your account will be closed.",
+    "label": "scam",
+    "category": "KYC/Bank Threat"
+  },
+  {
+    "id": 2,
+    "sender": "Mom",
+    "message": "Hi beta, are you coming home for dinner tonight? Let me know so I can cook your favorite dal.",
+    "label": "safe",
+    "category": "Normal Family Chat"
+  },
+  {
+    "id": 3,
+    "sender": "Unknown",
+    "message": "Congratulations! You have won Rs 5,00,000 in the Kaun Banega Crorepati lucky draw. Send Rs 500 processing fee to UPI id win@okaxis to claim.",
+    "label": "scam",
+    "category": "Prize Scam"
+  },
+  {
+    "id": 4,
+    "sender": "Son",
+    "message": "Papa, my phone broke and I am using my friend's phone. Can you send 5000 rupees urgently to this new UPI ID for my hostel fees? Don't call me right now, I am in an exam.",
+    "label": "suspicious",
+    "category": "Fake-Relative Money Request"
+  },
+  {
+    "id": 5,
+    "sender": "Airtel",
+    "message": "Your data pack of 1.5GB has been exhausted for today. Recharge now via the MyAirtel app.",
+    "label": "safe",
+    "category": "Normal Service Message"
+  }
+]
