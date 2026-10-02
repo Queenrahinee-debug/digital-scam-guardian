@@ -6,119 +6,259 @@
     <title>Digital Scam Guardian</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
-            color: #333;
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
             margin: 0;
-            padding: 20px;
-            font-size: 18px; /* Larger text for elderly accessibility */
+            padding: 30px;
+            font-size: 19px;
+            line-height: 1.5;
         }
         .container {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            border: 1px solid #dee2e6;
         }
         h1 {
-            color: #d9534f;
+            color: #1a1a1a;
             text-align: center;
-            font-size: 28px;
-        }
-        .box {
-            background: #fff3f3;
-            border-left: 6px solid #d9534f;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
-        .safe-box {
-            background: #e8f5e9;
-            border-left: 6px solid #4caf50;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
-        textarea {
-            width: 100%;
-            height: 100px;
-            padding: 12px;
-            font-size: 16px;
-            border: 2px solid #ccc;
-            border-radius: 6px;
-            resize: vertical;
-        }
-        button {
-            background-color: #0275d8;
-            color: white;
-            border: none;
-            padding: 14px 20px;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-        }
-        button:hover {
-            background-color: #025aa5;
-        }
-        ul {
-            padding-left: 20px;
-        }
-        li {
+            font-size: 32px;
             margin-bottom: 8px;
         }
+        .subtitle {
+            text-align: center;
+            color: #6c757d;
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+        .warning-box {
+            background: #fff8f6;
+            border-left: 8px solid #e67e22;
+            padding: 20px;
+            margin-top: 25px;
+            border-radius: 8px;
+        }
+        .safe-box {
+            background: #f0fdf4;
+            border-left: 8px solid #2ecc71;
+            padding: 20px;
+            margin-top: 25px;
+            border-radius: 8px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 20px;
+            margin-top: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-high { background-color: #fde8e8; color: #c53030; }
+        .badge-medium { background-color: #fef3c7; color: #b45309; }
+        .badge-low { background-color: #def7ec; color: #03543f; }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            border: 2px solid #ced4da;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #0d6efd;
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover { background-color: #0b5ed7; }
+        ul { padding-left: 24px; margin-top: 10px; }
+        li { margin-bottom: 8px; }
+        
+        details {
+            margin-top: 25px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: #f8fafc;
+            padding: 15px;
+        }
+        summary {
+            font-weight: bold;
+            cursor: pointer;
+            color: #1e293b;
+            font-size: 17px;
+        }
+        .tech-item {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 15px;
+        }
+        .tech-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            color: #334155;
+        }
+        .tech-desc {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 2px;
+        }
+        .scale-guide {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .scale-box {
+            flex: 1;
+            padding: 6px;
+            border: 1px solid #cbd5e1;
+        }
+        .scale-green { background: #def7ec; color: #03543f; border-top: 4px solid #2ecc71; }
+        .scale-orange { background: #fef3c7; color: #b45309; border-top: 4px solid #e67e22; }
+        .scale-red { background: #fde8e8; color: #c53030; border-top: 4px solid #e74c3c; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🛡️️ Digital Scam Guardian</h1>
-    <p style="text-align: center; color: #555;">Check messages instantly before you click or send money.</p>
+    <h1>🛡 Digital Scam Guardian</h1>
+    <div class="subtitle">Check messages safely before you click or send money.</div>
 
-    <label for="senderInput"><strong>Sender Name:</strong></label><br>
-    <input type="text" id="senderInput" value="Mom" style="width:100%; padding:10px; font-size:16px; margin-top:5px; margin-bottom:15px; border:2px solid #ccc; border-radius:6px;"><br>
+    <label for="senderInput">Sender Name:</label>
+    <input type="text" id="senderInput" value="Mom">
 
-    <label for="messageInput"><strong>Paste Suspicious Message Here:</strong></label><br>
+    <label for="messageInput">Paste Message Here:</label>
     <textarea id="messageInput">Can you send 5000 rupees urgently to this new UPI ID? Don't call me.</textarea>
     
     <button onclick="checkMessage()">Scan Message Now</button>
 
-    <div id="resultArea" style="margin-top: 25px;"></div>
+    <div id="resultArea"></div>
 </div>
 
 <script>
-    function checkMessage() {
+    async function checkMessage() {
         const sender = document.getElementById("senderInput").value;
         const message = document.getElementById("messageInput").value;
         const resultArea = document.getElementById("resultArea");
 
-        // Mock evaluation matching our backend risk engine logic for the frontend demo
-        if (message.toLowerCase().includes("5000") || message.toLowerCase().includes("urgent")) {
+        resultArea.innerHTML = "<p style='text-align:center; color:#6c757d; margin-top:20px;'><em>Checking message securely...</em></p>";
+
+        try {
+            const response = await fetch('/api/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    sender: sender,
+                    message: message,
+                    upi_mentioned: message.toLowerCase().includes("upi") ? "unfamiliar-id@upi" : null
+                })
+            });
+
+            const data = await response.json();
+
+            let boxClass = "warning-box";
+            let headerTitle = "Don't send money yet";
+            let headerColor = "#d35400";
+            if (data.risk_level === "LOW RISK") {
+                boxClass = "safe-box";
+                headerTitle = "Message Looks Safe";
+                headerColor = "#27ae60";
+            }
+
+            let scoreColorCss = "#2ecc71";
+            if (data.score_color === "orange") scoreColorCss = "#e67e22";
+            if (data.score_color === "red") scoreColorCss = "#c53030";
+
+            let reasonsList = data.reasons.map(reason => `<li>${reason}</li>`).join("");
+
+            let linkColor = data.technical_breakdown.link_score.color_style || "#27ae60";
+
             resultArea.innerHTML = `
-                <div class="box">
-                    <h3 style="margin-top:0; color:#d9534f;">🛑 HIGH RISK WARNING</h3>
-                    <p><strong>Sender:</strong> ${sender}</p>
-                    <p><strong>Recommended Action:</strong></p>
-                    <p style="font-size: 20px; font-weight: bold; color: #d9534f;">STOP! Do not send money or share details. Verify independently.</p>
-                    <p><strong>Why this looks risky:</strong></p>
+                <div class="${boxClass}">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <h2 style="margin:0; color:${headerColor}; font-size: 24px;">⚠ ${headerTitle}</h2>
+                        <span class="badge ${data.badge_class}">${data.risk_level}</span>
+                    </div>
+                    <p style="font-size: 19px; font-weight: bold; color: #2c3e50; margin-top: 15px;">${data.recommended_action}</p>
+                    <p style="margin-bottom: 5px;"><strong>Why this looks unusual:</strong></p>
                     <ul>
-                        <li>Creates false urgency or pressure.</li>
-                        <li>Unusual behavior: '${sender}' does not normally request money in their history.</li>
-                        <li>Mentions an unfamiliar payment ID or instruction not to call.</li>
+                        ${reasonsList.length > 0 ? reasonsList : "<li>No specific risk flags triggered.</li>"}
                     </ul>
+
+                    <details>
+                        <summary>🔍 View Technical Scorecard & Metrics</summary>
+                        
+                        <div style="margin-top: 15px; padding: 12px; background: #fff; border-radius: 6px; border: 1px solid #e2e8f0;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <strong style="font-size: 16px;">Safety Reputation Score:</strong>
+                                <span style="font-size: 18px; font-weight: bold; color: ${scoreColorCss};">${data.reputation_score} / 100 (${data.score_label})</span>
+                            </div>
+                            
+                            <div class="scale-guide">
+                                <div class="scale-box scale-red">0–39<br>High Risk</div>
+                                <div class="scale-box scale-orange">40–69<br>Moderate</div>
+                                <div class="scale-box scale-green">70–100<br>Safe</div>
+                            </div>
+                        </div>
+
+                        <div class="tech-item">
+                            <div class="tech-header">
+                                <span>Rule Engine Safety</span>
+                                <span style="color: #c53030;">${data.technical_breakdown.rule_score.value}</span>
+                            </div>
+                            <div class="tech-desc">${data.technical_breakdown.rule_score.explanation}</div>
+                        </div>
+
+                        <div class="tech-item">
+                            <div class="tech-header">
+                                <span>Sender History Safety</span>
+                                <span style="color: #c53030;">${data.technical_breakdown.sender_score.value}</span>
+                            </div>
+                            <div class="tech-desc">${data.technical_breakdown.sender_score.explanation}</div>
+                        </div>
+
+                        <div class="tech-item">
+                            <div class="tech-header">
+                                <span>Link Safety</span>
+                                <span style="color: ${linkColor};">${data.technical_breakdown.link_score.value}</span>
+                            </div>
+                            <div class="tech-desc">${data.technical_breakdown.link_score.explanation}</div>
+                        </div>
+
+                        <div class="tech-item">
+                            <div class="tech-header">
+                                <span>Machine Learning AI Safety</span>
+                                <span style="color: #c53030;">${data.technical_breakdown.ml_score.value}</span>
+                            </div>
+                            <div class="tech-desc">${data.technical_breakdown.ml_score.explanation}</div>
+                        </div>
+                    </details>
                 </div>
             `;
-        } else {
-            resultArea.innerHTML = `
-                <div class="safe-box">
-                    <h3 style="margin-top:0; color:#4caf50;">✅ LOOKS SAFE</h3>
-                    <p><strong>Sender:</strong> ${sender}</p>
-                    <p><strong>Recommended Action:</strong> No major risk signals detected. Safe to proceed.</p>
-                </div>
-            `;
+        } catch (error) {
+            resultArea.innerHTML = `<p style="color: #c0392b; text-align:center;">Error connecting to the backend engine.</p>`;
         }
     }
 </script>
