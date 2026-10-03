@@ -3,8 +3,6 @@
 A scam-safety layer for messages, **designed first for elderly people and useful to anyone**.
 It checks a message on the user's own device, then explains in plain language why the message looks risky and what to do.
 
-Built for the **Tata Young Social Innovator Challenge** (Technology for Social Good: *how can an elderly person tell whether a call, link or message is genuine or a scam?*).
-
 > **Status: Prototype 1.** A working web demo of the detection approach. It does **not** read WhatsApp or SMS yet, and it does not handle phone calls.
 
 <!-- Add screenshots here once taken, for example:
