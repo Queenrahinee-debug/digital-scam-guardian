@@ -33,5 +33,306 @@
     "message": "Your data pack of 1.5GB has been exhausted for today. Recharge now via the MyAirtel app.",
     "label": "safe",
     "category": "Normal Service Message"
+  },
+  {
+    "id": 6,
+    "sender": "SBI-ALERT",
+    "message": "Your SBI YONO account has been suspended. Verify your PAN card now at http://sbi-yono-verify.xyz or lose access.",
+    "label": "scam",
+    "category": "Bank Threat"
+  },
+  {
+    "id": 7,
+    "sender": "HDFC-Care",
+    "message": "HDFC Bank: Your net banking will be blocked within 24 hours. Update details at bit.ly/hdfc-upd.",
+    "label": "scam",
+    "category": "Bank Threat"
+  },
+  {
+    "id": 8,
+    "sender": "Unknown",
+    "message": "Dear user, your account is on hold due to incomplete verification. Reply with your debit card PIN to reactivate.",
+    "label": "scam",
+    "category": "OTP/PIN Request"
+  },
+  {
+    "id": 9,
+    "sender": "+919810045522",
+    "message": "Sir, I am calling from the bank. Please share the OTP you just received to cancel the wrong transaction.",
+    "label": "scam",
+    "category": "OTP/PIN Request"
+  },
+  {
+    "id": 10,
+    "sender": "Paytm-KYC",
+    "message": "Your Paytm KYC expires today. Complete e-KYC at http://paytm-kyc-update.top to avoid restrictions.",
+    "label": "scam",
+    "category": "KYC Scam"
+  },
+  {
+    "id": 11,
+    "sender": "Unknown",
+    "message": "Your Aadhaar is linked to a suspicious SIM. Send the 6-digit code we texted to confirm your identity.",
+    "label": "scam",
+    "category": "OTP/PIN Request"
+  },
+  {
+    "id": 12,
+    "sender": "Unknown",
+    "message": "You are the lucky winner of an iPhone 15! Claim your prize at http://claim-iphone-gift.info before midnight.",
+    "label": "scam",
+    "category": "Prize Scam"
+  },
+  {
+    "id": 13,
+    "sender": "Unknown",
+    "message": "Congratulations! Your mobile number won Rs 25 lakh in the Jio lucky draw. Pay Rs 1,500 registration fee to claim.",
+    "label": "scam",
+    "category": "Prize Scam"
+  },
+  {
+    "id": 14,
+    "sender": "India-Post",
+    "message": "Your parcel is held at the depot due to an unpaid customs fee of Rs 49. Pay at http://indiapost-redelivery.top to release it.",
+    "label": "scam",
+    "category": "Fake Delivery"
+  },
+  {
+    "id": 15,
+    "sender": "Courier",
+    "message": "We tried to deliver your package. Update your address at bit.ly/delivery-fix or it will be returned.",
+    "label": "scam",
+    "category": "Fake Delivery"
+  },
+  {
+    "id": 16,
+    "sender": "+917011223344",
+    "message": "Hi Mom, this is my new number. I am in trouble, please send Rs 15000 to this UPI ID right now. Don't tell Dad.",
+    "label": "scam",
+    "category": "Fake-Relative Money Request"
+  },
+  {
+    "id": 17,
+    "sender": "Dad",
+    "message": "Beta I lost my wallet and need Rs 8000 urgently on a new UPI number. Please do not call, I am in a meeting.",
+    "label": "suspicious",
+    "category": "Fake-Relative Money Request"
+  },
+  {
+    "id": 18,
+    "sender": "Unknown",
+    "message": "Hello uncle, I am Rahul's friend. He had an accident, send Rs 20000 to this account immediately, keep this secret.",
+    "label": "scam",
+    "category": "Fake-Relative Money Request"
+  },
+  {
+    "id": 19,
+    "sender": "Unknown",
+    "message": "This is Cyber Police. A parcel in your name contained illegal items. You are under digital arrest. Do not tell anyone or leave your home.",
+    "label": "scam",
+    "category": "Fake Police/Arrest"
+  },
+  {
+    "id": 20,
+    "sender": "TRAI-Notice",
+    "message": "Your mobile number will be disconnected in 2 hours for illegal activity. Press 1 to speak to the TRAI officer.",
+    "label": "scam",
+    "category": "Fake Police/Arrest"
+  },
+  {
+    "id": 21,
+    "sender": "Unknown",
+    "message": "CBI warrant has been issued against you for money laundering. Transfer Rs 2 lakh to the safe RBI account to clear your name.",
+    "label": "scam",
+    "category": "Fake Police/Arrest"
+  },
+  {
+    "id": 22,
+    "sender": "Unknown",
+    "message": "Hello, I came across your profile. We have a part-time job, earn Rs 3000 daily from home. Message me on WhatsApp to begin.",
+    "label": "scam",
+    "category": "Calm Scam (no link)"
+  },
+  {
+    "id": 23,
+    "sender": "Unknown",
+    "message": "Dear customer, please call us back on 9876500000 regarding an issue with your electricity connection.",
+    "label": "suspicious",
+    "category": "Calm Scam (no link)"
+  },
+  {
+    "id": 24,
+    "sender": "Unknown",
+    "message": "I am a friend of your cousin. He gave me your number. Can you help me with Rs 2000 for a few days? I will return it Friday.",
+    "label": "suspicious",
+    "category": "Calm Scam (no link)"
+  },
+  {
+    "id": 25,
+    "sender": "Mom",
+    "message": "Don't forget to take your medicines after lunch.",
+    "label": "safe",
+    "category": "Normal Family Chat"
+  },
+  {
+    "id": 26,
+    "sender": "Dad",
+    "message": "Reached office. Will call you in the evening.",
+    "label": "safe",
+    "category": "Normal Family Chat"
+  },
+  {
+    "id": 27,
+    "sender": "Son",
+    "message": "Papa, exams are over. I will be home on Saturday.",
+    "label": "safe",
+    "category": "Normal Family Chat"
+  },
+  {
+    "id": 28,
+    "sender": "Rahul",
+    "message": "Look at this meme, so true!",
+    "label": "safe",
+    "category": "Normal Chat"
+  },
+  {
+    "id": 29,
+    "sender": "Mom",
+    "message": "Can you pick up some vegetables on your way home?",
+    "label": "safe",
+    "category": "Normal Family Chat"
+  },
+  {
+    "id": 30,
+    "sender": "HDFC Bank",
+    "message": "Your OTP for login is 551203. It is valid for 5 minutes. Do not share it with anyone.",
+    "label": "safe",
+    "category": "Genuine OTP Notice"
+  },
+  {
+    "id": 31,
+    "sender": "SBI",
+    "message": "Rs 1,200.00 debited from A/c XX4521 on 02-10-26 at Big Bazaar. Not you? Call the number on your card.",
+    "label": "safe",
+    "category": "Genuine Bank Notice"
+  },
+  {
+    "id": 32,
+    "sender": "ICICI Bank",
+    "message": "Your credit card statement for September is ready. Minimum due Rs 850 by 15 Oct.",
+    "label": "safe",
+    "category": "Genuine Bank Notice"
+  },
+  {
+    "id": 33,
+    "sender": "Amazon",
+    "message": "Your order has been shipped and will arrive by Tuesday.",
+    "label": "safe",
+    "category": "Genuine Delivery Notice"
+  },
+  {
+    "id": 34,
+    "sender": "Zomato",
+    "message": "Your order from Biryani House is out for delivery. OTP for delivery is 4821. Do not share with anyone except the delivery partner.",
+    "label": "safe",
+    "category": "Genuine OTP Notice"
+  },
+  {
+    "id": 35,
+    "sender": "Rahul",
+    "message": "Dinner was Rs 1,800 total, so your share is Rs 450. Send it to my usual UPI when you can.",
+    "label": "safe",
+    "category": "Friend Splitting Bill"
+  },
+  {
+    "id": 36,
+    "sender": "Rahul",
+    "message": "Thanks for the Rs 500 you sent yesterday, I will pay you back on Monday.",
+    "label": "safe",
+    "category": "Friend Splitting Bill"
+  },
+  {
+    "id": 37,
+    "sender": "Dad",
+    "message": "Please pay the electricity bill of Rs 2,300 from the app today, due date is tomorrow.",
+    "label": "safe",
+    "category": "Genuine Message Mentioning Money"
+  },
+  {
+    "id": 38,
+    "sender": "+919845012345",
+    "message": "Hi, this is the plumber. I can come tomorrow at 10 am. Is that fine?",
+    "label": "safe",
+    "category": "Ordinary Unknown Message"
+  },
+  {
+    "id": 39,
+    "sender": "+918800123456",
+    "message": "Your table for 4 is booked at 8 pm tonight. See you!",
+    "label": "safe",
+    "category": "Ordinary Unknown Message"
+  },
+  {
+    "id": 40,
+    "sender": "Unknown",
+    "message": "Hey, are you free this weekend for the college reunion?",
+    "label": "safe",
+    "category": "Ordinary Unknown Message"
+  },
+  {
+    "id": 41,
+    "sender": "Friend",
+    "message": "Yaar urgent paise chahiye, 3000 PhonePe kar de abhi, kal wapas kar dunga.",
+    "label": "suspicious",
+    "category": "Hinglish"
+  },
+  {
+    "id": 42,
+    "sender": "Unknown",
+    "message": "Aapka bank account band ho jayega. Abhi KYC update karein: bit.ly/kyc-now",
+    "label": "scam",
+    "category": "Hinglish"
+  },
+  {
+    "id": 43,
+    "sender": "Mom",
+    "message": "Beta kal sabzi le aana, aur ghar jaldi aana.",
+    "label": "safe",
+    "category": "Hinglish"
+  },
+  {
+    "id": 44,
+    "sender": "Dad",
+    "message": "Beta Rs 5000 turant bhej do, naye UPI par. Phone mat karna.",
+    "label": "suspicious",
+    "category": "Hinglish"
+  },
+  {
+    "id": 45,
+    "sender": "Son",
+    "message": "Papa, college fees of Rs 12,000 are due on the 10th. I will show you the receipt tonight.",
+    "label": "safe",
+    "category": "Genuine Message Mentioning Money"
+  },
+  {
+    "id": 46,
+    "sender": "Mom",
+    "message": "The gas cylinder costs Rs 900 now, I paid already.",
+    "label": "safe",
+    "category": "Genuine Message Mentioning Money"
+  },
+  {
+    "id": 47,
+    "sender": "Unknown",
+    "message": "Income Tax Dept: You have a pending refund of Rs 34,500. Submit bank details at http://incometax-refund.top.",
+    "label": "scam",
+    "category": "Fake Refund"
+  },
+  {
+    "id": 48,
+    "sender": "Unknown",
+    "message": "Electricity bill unpaid. Your power will be cut tonight. Call officer on 9988776655 immediately.",
+    "label": "scam",
+    "category": "Bank/Utility Threat"
   }
 ]

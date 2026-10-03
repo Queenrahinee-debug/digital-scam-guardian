@@ -5,6 +5,13 @@ Regexes use word boundaries (\b) so "rs" no longer matches inside "hours".
 """
 import re
 
+# A money REQUEST = an asking/sending verb close to a money word (UPI app, amount, fee...).
+# A plain mention ("Rs 1,200 debited", "fees due on the 10th") is NOT a request and scores nothing.
+_MONEY = (r"(?:upi|paytm|phonepe|gpay|google pay|money|paise|rupees?|fees?"
+          r"|(?:₹|\brs\.?|\binr)\s*\d[\d,]*|\b\d[\d,]*\s*(?:rs|rupees?|inr))")
+_VERB = r"(?:send|transfer|pay|lend|loan|borrow|deposit|bhej(?:o|na)?|kar ?de|de ?do|chahiye)"
+_MONEY_REQUEST = rf"\b{_VERB}\b.{{0,60}}\b{_MONEY}|\b{_MONEY}.{{0,30}}\b{_VERB}\b"
+
 _RULES = [
     ("urgency",
      r"\b(?:immediately|urgent(?:ly)?|right now|asap|hurry|emergency|last warning|jaldi|turant)\b"
@@ -14,12 +21,9 @@ _RULES = [
      r"\baccount\b.{0,40}\b(?:blocked|suspended|closed|deactivated)\b"
      r"|\bwill be (?:blocked|closed|suspended)\b",
      30, "Threatens account restriction or closure."),
-    ("financial",
-     r"\bupi\b|\bpaytm\b|\bphonepe\b|\bgpay\b|\bgoogle pay\b|\btransfer\b|\bmoney\b|\bfees?\b|\bpaise\b"
-     r"|(?:₹|\brs\.?|\binr)\s*\d|\b\d[\d,]*\s*(?:rs|rupees?|inr)\b",
-     30, "Requests a financial transaction or payment."),
+    ("financial", _MONEY_REQUEST, 30, "Requests a financial transaction or payment."),
     ("credential_request",
-     r"\b(?:send|share|tell|give|provide|enter|reply with|forward)\b.{0,30}\b(?:otp|pin|password|cvv)\b",
+     r"\b(?:send|share|tell|give|provide|enter|reply with|forward)\b.{0,30}\b(?:otp|pin|password|cvv|(?:\d[- ]digit |verification |security |secret )code)\b",
      40, "Asks you to share a password, PIN or OTP."),
     ("kyc", r"\bkyc\b", 20, "Mentions a KYC update, a common scam pretext."),
     ("secrecy",
@@ -33,6 +37,14 @@ _RULES = [
      30, "Claims you have won a prize."),
 ]
 _COMPILED = [(n, re.compile(p, re.IGNORECASE), pts, why) for n, p, pts, why in _RULES]
+
+
+_ASKS_MONEY = re.compile(_MONEY_REQUEST, re.IGNORECASE)
+
+
+def asks_for_money(text):
+    """True only when the message asks the reader to send or pay money."""
+    return bool(_ASKS_MONEY.search(text))
 
 
 def analyze_message(message_text, sender="Unknown"):

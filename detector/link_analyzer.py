@@ -3,7 +3,7 @@ import re
 from urllib.parse import urlparse
 
 URL_RE = re.compile(
-    r"https?://[^\s]+|www\.[^\s]+|[a-zA-Z0-9][-a-zA-Z0-9]*\.(?:com|in|org|net|xyz|top|biz|info)\b[^\s]*"
+    r"https?://[^\s]+|www\.[^\s]+|\b(?:bit\.ly|tinyurl\.com|t\.co|goo\.gl|is\.gd|buff\.ly|shorturl\.at)/[^\s]*|[a-zA-Z0-9][-a-zA-Z0-9]*\.(?:com|in|org|net|xyz|top|biz|info)\b[^\s]*"
 )
 SHORTENERS = {"bit.ly", "tinyurl.com", "t.co", "goo.gl", "is.gd", "buff.ly", "shorturl.at"}
 SUSPICIOUS_TLDS = (".xyz", ".top", ".biz", ".info", ".gq", ".ml", ".cf")

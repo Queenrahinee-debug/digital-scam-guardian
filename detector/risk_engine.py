@@ -30,6 +30,9 @@ def _advice(level, sender, known, signals, has_links):
     if level == "HIGH" and known:
         return (f"This looks unusual for {sender}. Their account may be compromised, or someone may be pretending "
                 f"to be them. Call {sender} on a number you already have before doing anything.")
+    if level == "HIGH" and "financial" in signals and not has_links:
+        return ("Do not send money. Call this person on a number you already know, "
+                "or ask a family member, before doing anything.")
     if level == "HIGH":
         return ("Do not reply, click links or send money. If it claims to be your bank or the police, "
                 "contact them using the number on your card or their official website.")

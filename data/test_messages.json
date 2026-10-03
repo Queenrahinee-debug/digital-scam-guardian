@@ -1,0 +1,226 @@
+[
+  {
+    "id": 1,
+    "sender": "ICICI-Alert",
+    "message": "Alert: your ICICI account will be frozen today. Click http://icici-secure-login.xyz to confirm identity.",
+    "label": "scam",
+    "category": "Bank Threat"
+  },
+  {
+    "id": 2,
+    "sender": "Unknown",
+    "message": "Your electricity connection will be disconnected tonight. Pay Rs 10 at bit.ly/pay-power-now to continue.",
+    "label": "scam",
+    "category": "Bank/Utility Threat"
+  },
+  {
+    "id": 3,
+    "sender": "Unknown",
+    "message": "Bank officer here. For security, kindly tell me the PIN of your card.",
+    "label": "scam",
+    "category": "OTP/PIN Request"
+  },
+  {
+    "id": 4,
+    "sender": "Unknown",
+    "message": "Dear customer your SIM KYC is incomplete, send the verification code received to avoid blocking.",
+    "label": "scam",
+    "category": "OTP/KYC Request"
+  },
+  {
+    "id": 5,
+    "sender": "Unknown",
+    "message": "You have been selected for a Flipkart lucky draw. Pay Rs 99 delivery fee on UPI to receive your free TV.",
+    "label": "scam",
+    "category": "Prize Scam"
+  },
+  {
+    "id": 6,
+    "sender": "Unknown",
+    "message": "Delhi Police Cyber Cell: your Aadhaar was used in a crime. Stay on this video call and do not disconnect or tell family.",
+    "label": "scam",
+    "category": "Fake Police/Arrest"
+  },
+  {
+    "id": 7,
+    "sender": "+917000123456",
+    "message": "Mummy, I dropped my phone, this is a new number. Send 12000 to this UPI immediately, it is an emergency.",
+    "label": "scam",
+    "category": "Fake-Relative Money Request"
+  },
+  {
+    "id": 8,
+    "sender": "Dad",
+    "message": "Beta, urgent hospital bill, transfer Rs 25000 to this new account number now. Don't tell your mother.",
+    "label": "suspicious",
+    "category": "Fake-Relative Money Request"
+  },
+  {
+    "id": 9,
+    "sender": "Unknown",
+    "message": "Parcel from Amazon is stuck at customs. Pay Rs 75 clearance at http://amzn-customs-fee.top",
+    "label": "scam",
+    "category": "Fake Delivery"
+  },
+  {
+    "id": 10,
+    "sender": "Unknown",
+    "message": "Work from home! Earn Rs 5000 per day liking videos. Send your bank details to our manager on Telegram.",
+    "label": "scam",
+    "category": "Calm Scam (no link)"
+  },
+  {
+    "id": 11,
+    "sender": "Unknown",
+    "message": "Hello, my name is Priya, I found your number in a group. Can you lend me Rs 3000 until Friday? I really need it.",
+    "label": "suspicious",
+    "category": "Calm Scam (no link)"
+  },
+  {
+    "id": 12,
+    "sender": "BankAlert",
+    "message": "Last warning: your PAN is not linked. Account will be blocked in 2 hours unless you update at http://pan-link-update.info",
+    "label": "scam",
+    "category": "Bank Threat"
+  },
+  {
+    "id": 13,
+    "sender": "Unknown",
+    "message": "Aapka PAN update nahi hai, account block ho jayega. Abhi link kholein: tinyurl.com/pan-fix",
+    "label": "scam",
+    "category": "Hinglish"
+  },
+  {
+    "id": 14,
+    "sender": "Rahul",
+    "message": "Bhai emergency hai, 4000 GPay kar de jaldi, call mat karna, baad mein samjhata hu.",
+    "label": "suspicious",
+    "category": "Hinglish"
+  },
+  {
+    "id": 15,
+    "sender": "Mom",
+    "message": "Dinner is ready, come down when you are free.",
+    "label": "safe",
+    "category": "Normal Family Chat"
+  },
+  {
+    "id": 16,
+    "sender": "Dad",
+    "message": "Did you reach safely? Send a photo of the new house.",
+    "label": "safe",
+    "category": "Normal Family Chat"
+  },
+  {
+    "id": 17,
+    "sender": "Rahul",
+    "message": "Match starts at 7. I booked the tickets already.",
+    "label": "safe",
+    "category": "Normal Chat"
+  },
+  {
+    "id": 18,
+    "sender": "Son",
+    "message": "Papa, please wake me up at 6 tomorrow.",
+    "label": "safe",
+    "category": "Normal Family Chat"
+  },
+  {
+    "id": 19,
+    "sender": "SBI",
+    "message": "Your OTP is 774512 for net banking login. Never share this code with anyone, including bank staff.",
+    "label": "safe",
+    "category": "Genuine OTP Notice"
+  },
+  {
+    "id": 20,
+    "sender": "HDFCBK",
+    "message": "Rs 3,450.00 credited to your A/c XX9981 on 01-10-26. Avl bal Rs 24,300.",
+    "label": "safe",
+    "category": "Genuine Bank Notice"
+  },
+  {
+    "id": 21,
+    "sender": "Swiggy",
+    "message": "Your order is arriving in 10 minutes. Share OTP 3321 only with the delivery partner.",
+    "label": "safe",
+    "category": "Genuine OTP Notice"
+  },
+  {
+    "id": 22,
+    "sender": "+919830011223",
+    "message": "This is Dr. Sen's clinic. Your appointment is confirmed for 5 pm tomorrow.",
+    "label": "safe",
+    "category": "Ordinary Unknown Message"
+  },
+  {
+    "id": 23,
+    "sender": "Unknown",
+    "message": "Hi, I saw your ad for the bicycle. Is it still available?",
+    "label": "safe",
+    "category": "Ordinary Unknown Message"
+  },
+  {
+    "id": 24,
+    "sender": "+918901234567",
+    "message": "Your cab will arrive in 3 minutes. Driver Ramesh, WB 02 AB 1234.",
+    "label": "safe",
+    "category": "Ordinary Unknown Message"
+  },
+  {
+    "id": 25,
+    "sender": "Rahul",
+    "message": "Your share of the movie tickets is Rs 300. Please send it to my usual UPI id whenever.",
+    "label": "safe",
+    "category": "Friend Splitting Bill"
+  },
+  {
+    "id": 26,
+    "sender": "Mom",
+    "message": "I paid the maid Rs 4000 today, remind me to note it down.",
+    "label": "safe",
+    "category": "Genuine Message Mentioning Money"
+  },
+  {
+    "id": 27,
+    "sender": "Dad",
+    "message": "Please pay the school fees of Rs 6000 using the saved payee, I will confirm tonight.",
+    "label": "safe",
+    "category": "Genuine Message Mentioning Money"
+  },
+  {
+    "id": 28,
+    "sender": "Airtel",
+    "message": "Your plan of Rs 299 expires in 2 days. Recharge in the Airtel Thanks app to continue.",
+    "label": "safe",
+    "category": "Normal Service Message"
+  },
+  {
+    "id": 29,
+    "sender": "Son",
+    "message": "Papa, I need Rs 2000 for books. Can you transfer it to my usual account when free?",
+    "label": "safe",
+    "category": "Genuine Message Mentioning Money"
+  },
+  {
+    "id": 30,
+    "sender": "Unknown",
+    "message": "Your electricity bill of Rs 1,450 is due on 12 Oct. Pay via the official TPDDL app.",
+    "label": "safe",
+    "category": "Genuine Bill Notice"
+  },
+  {
+    "id": 31,
+    "sender": "Mom",
+    "message": "Mummy ne kaha sabzi le aana aur jaldi ghar aao.",
+    "label": "safe",
+    "category": "Hinglish"
+  },
+  {
+    "id": 32,
+    "sender": "Rahul",
+    "message": "Bhai kal ka lunch ka Rs 250 mera share bhej dena, usual UPI pe.",
+    "label": "safe",
+    "category": "Hinglish"
+  }
+]

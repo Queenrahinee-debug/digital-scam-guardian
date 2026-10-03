@@ -4,6 +4,8 @@ import sqlite3
 from contextlib import closing
 from pathlib import Path
 
+from detector.detector import asks_for_money
+
 DB_PATH = Path(__file__).resolve().parent.parent / "data" / "contacts.db"  # works from any folder
 
 # Demo baseline: (name, relation, usual UPI ID, asks for money normally?). Edit freely.
@@ -11,7 +13,7 @@ SEED_CONTACTS = [
     ("Mom", "Family", "mom@okaxis", 0),
     ("Dad", "Family", "dad@oksbi", 0),
     ("Son", "Family", "son@okhdfcbank", 0),
-    ("Rahul", "Friend", "rahul@okicici", 0),
+    ("Rahul", "Friend", "rahul@okicici", 1)   # friends often split bills,
 ]
 
 MONEY_RE = re.compile(
@@ -56,7 +58,7 @@ def analyze_sender_behavior(sender_name, message_text, upi_mentioned=None):
         ).fetchone()
 
     score, reasons = 0, []
-    asks_money = bool(MONEY_RE.search(message_text))
+    asks_money = asks_for_money(message_text)
     usual = bool(USUAL_RE.search(message_text))
 
     if row:
