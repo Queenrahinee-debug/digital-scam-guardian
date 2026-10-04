@@ -3,13 +3,32 @@
 A scam-safety layer for messages, **designed first for elderly people and useful to anyone**.
 It checks a message on the user's own device, then explains in plain language why the message looks risky and what to do.
 
+Built for the **Tata Young Social Innovator Challenge** (Technology for Social Good: *how can an elderly person tell whether a call, link or message is genuine or a scam?*).
+
 > **Status: Prototype 1.** A working web demo of the detection approach. It does **not** read WhatsApp or SMS yet, and it does not handle phone calls.
 
-<!-- Add screenshots here once taken, for example:
-![Known contact asks for money](docs/screenshots/known-contact.png)
-![Fake KYC link](docs/screenshots/fake-link.png)
-![Normal message](docs/screenshots/normal.png)
--->
+## Screenshots
+
+**A known contact asks for money, to a new payment ID** (high risk, with plain-language reasons):
+
+<img src="docs/screenshots/01-known-contact-money-request.png" alt="Known contact asks for money" width="380">
+
+**Technical scorecard** (each layer shown separately; the ML signal is deliberately weak and the rules and sender history drive the verdict):
+
+<img src="docs/screenshots/02-scorecard.png" alt="Technical scorecard" width="380">
+
+**Fake bank link:**
+
+<img src="docs/screenshots/03-fake-bank-link.png" alt="Fake bank link" width="380">
+
+**Normal message and a genuine OTP notice** (no false alarm):
+
+<img src="docs/screenshots/04-normal-message.png" alt="Normal message" width="300"> <img src="docs/screenshots/05-genuine-otp-notice.png" alt="Genuine OTP notice" width="300">
+
+**Hinglish scam** and a **known limitation** (a genuine fee message gets a moderate warning):
+
+<img src="docs/screenshots/06-hinglish-scam.png" alt="Hinglish scam" width="300"> <img src="docs/screenshots/07-limitation-genuine-bill.png" alt="Limitation: genuine bill message" width="300">
+
 
 ## The problem
 Scammers do not hack elderly people's phones; they persuade them, using urgency, fear, authority and trust.
@@ -57,6 +76,8 @@ python detector/train_model.py                  # ML training info
 | Hold-out (run once, not tuned on) | 32 | 14 | 4 | 14 | 0 | 87.5% | 77.8% | 100% |
 
 On the hold-out set, all 14 scam or suspicious messages were flagged, and 4 of 18 genuine messages received a moderate (SUSPICIOUS) warning. None of the genuine messages was marked HIGH RISK.
+
+Evidence (terminal output): [scenarios](docs/screenshots/08-scenarios.png), [development set](docs/screenshots/09-dev-results.png), [hold-out set](docs/screenshots/10-holdout-results.png), [ML training info](docs/screenshots/11-ml-info.png).
 
 **Please read these numbers carefully.**
 - The sets are small, so results are indicative only. With 32 messages the true accuracy could plausibly lie between roughly 72% and 95%.
