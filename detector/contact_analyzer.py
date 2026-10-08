@@ -65,17 +65,17 @@ def analyze_sender_behavior(sender_name, message_text, upi_mentioned=None):
         normal_upi, asks_normally = row
         if asks_money and not asks_normally:
             score += 15 if usual else 40   # a money request using a "usual" ID is far less alarming
-            reasons.append(f"Unusual behavior: '{name}' does not normally request money in their history.")
+            reasons.append(f"{name} does not usually ask for money.")
         ids = _ids_in(message_text, upi_mentioned)
         new_id = bool(NEW_ID_RE.search(message_text)) or any(i != normal_upi.lower() for i in ids)
         if asks_money and new_id and not usual:
             score += 35
-            reasons.append(f"Asks you to pay to a payment ID that {name} has not used before.")
+            reasons.append(f"It asks you to pay to a new payment ID that {name} has not used before.")
     else:
         score += 15
-        reasons.append(f"Sender '{name}' is not in your saved contacts list.")
+        reasons.append(f"You do not have '{name}' saved as a contact.")
         if asks_money:
             score += 20
-            reasons.append("An unknown sender is asking for money.")
+            reasons.append("Someone you do not know is asking for money.")
 
     return {"sender": name, "sender_score": min(score, 100), "sender_reasons": reasons, "known_contact": bool(row)}

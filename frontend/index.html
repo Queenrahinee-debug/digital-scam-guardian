@@ -35,7 +35,7 @@
 <body>
 <div class="container">
   <h1>🛡 Digital Scam Guardian</h1>
-  <div class="subtitle">Check a message before you click or send money.</div>
+  <div class="subtitle">Not sure about a message? Check it here before you tap a link or send money.</div>
 
   <label for="senderInput">Who sent it?</label>
   <input type="text" id="senderInput" value="Mom" maxlength="100">
@@ -45,13 +45,13 @@
 
   <div class="examples">Try an example:
     <button type="button" data-s="Mom" data-m="Can you send 5000 rupees urgently to this new UPI ID? Don't call me.">Family asks for money</button>
-    <button type="button" data-s="Unknown Support" data-m="Dear customer, your SBI account will be blocked today. Update KYC at http://sbi-update-kyc.com immediately.">Bank link</button>
+    <button type="button" data-s="Unknown Support" data-m="Dear customer, your SBI account will be blocked today. Update KYC at http://sbi-update-kyc.com immediately.">Bank message with link</button>
     <button type="button" data-s="Mom" data-m="Hi beta, are you coming home for dinner tonight?">Normal chat</button>
   </div>
 
-  <button class="main" id="scanBtn">Scan Message Now</button>
+  <button class="main" id="scanBtn">Check this message</button>
   <div id="resultArea" aria-live="polite"></div>
-  <div class="note">Prototype demo. Contacts and history are sample data. The message is analysed in memory and not stored.</div>
+  <div class="note">This is a test version. The contacts shown are made-up samples. Your message is checked on the spot and is not saved.</div>
 </div>
 
 <script>
@@ -93,27 +93,27 @@
       const cls = d.score_color === "red" ? "high" : d.score_color === "orange" ? "mid" : "low";
       const titleColor = cls === "high" ? "#c53030" : cls === "mid" ? "#d35400" : "#27ae60";
       const icon = cls === "low" ? "✅" : "⚠";
-      const reasons = d.reasons.length ? d.reasons.map(r => `<li>${esc(r)}</li>`).join("") : "<li>No specific warning signs found.</li>";
+      const reasons = d.reasons.length ? d.reasons.map(r => `<li>${esc(r)}</li>`).join("") : "<li>We did not find anything worrying.</li>";
       const t = d.technical_breakdown;
 
       out.innerHTML = `
         <div class="result ${cls}">
           <div class="head"><h2 style="color:${titleColor}">${icon} ${esc(d.headline)}</h2>
-            <span class="badge ${esc(d.badge_class)}">${esc(d.risk_level)}</span></div>
+            <span class="badge ${esc(d.badge_class)}">${esc(d.level_label || d.risk_level)}</span></div>
           <p class="action">${esc(d.recommended_action)}</p>
-          <p><strong>${cls === "low" ? "What we checked:" : "Why this looks unusual:"}</strong></p>
+          <p><strong>${cls === "low" ? "What we looked at:" : "Why we are worried:"}</strong></p>
           <ul>${reasons}</ul>
-          <details><summary>🔍 View technical scorecard</summary>
+          <details><summary>🔍 See how we checked (for experts)</summary>
             <div class="tech"><div class="row"><span>Safety score (higher is safer)</span>
               <span style="color:${valueColor(d.reputation_score + ' / 100')}">${esc(d.reputation_score)} / 100</span></div></div>
-            ${techRow("Rule engine", t.rule_score)}
-            ${techRow("Sender history", t.sender_score)}
-            ${techRow("Link check", t.link_score)}
-            ${techRow("Machine learning", t.ml_score)}
+            ${techRow("Words used", t.rule_score)}
+            ${techRow("Is it normal for this person?", t.sender_score)}
+            ${techRow("Links", t.link_score)}
+            ${techRow("Computer helper (weak hint)", t.ml_score)}
           </details>
         </div>`;
     } catch (err) {
-      out.innerHTML = "<p style='color:#c0392b;text-align:center'>Could not reach the checking engine. Is the server running?</p>";
+      out.innerHTML = "<p style='color:#c0392b;text-align:center'>Sorry, we could not check this message. Please try again.</p>";
     } finally {
       btn.disabled = false;
     }

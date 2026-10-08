@@ -16,25 +16,25 @@ _RULES = [
     ("urgency",
      r"\b(?:immediately|urgent(?:ly)?|right now|asap|hurry|emergency|last warning|jaldi|turant)\b"
      r"|within \d+ (?:minutes?|hours?)",
-     25, "Uses high-pressure or urgent language."),
+     25, "It tries to rush you."),
     ("threat",
      r"\baccount\b.{0,40}\b(?:blocked|suspended|closed|deactivated)\b"
      r"|\bwill be (?:blocked|closed|suspended)\b",
-     30, "Threatens account restriction or closure."),
-    ("financial", _MONEY_REQUEST, 30, "Requests a financial transaction or payment."),
+     30, "It says your bank account will be blocked or closed."),
+    ("financial", _MONEY_REQUEST, 30, "It asks you to send or pay money."),
     ("credential_request",
      r"\b(?:send|share|tell|give|provide|enter|reply with|forward)\b.{0,30}\b(?:otp|pin|password|cvv|(?:\d[- ]digit |verification |security |secret )code)\b",
-     40, "Asks you to share a password, PIN or OTP."),
-    ("kyc", r"\bkyc\b", 20, "Mentions a KYC update, a common scam pretext."),
+     40, "It asks for your PIN, password or secret code (OTP)."),
+    ("kyc", r"\bkyc\b", 20, "It talks about updating your bank details (KYC). Scammers use this a lot."),
     ("secrecy",
      r"\bdo(?:n[’']?t| not) (?:call|tell)\b|\bkeep (?:this )?(?:a )?secret\b|\bbaad mein call\b|\bmat batana\b",
-     25, "Tells you not to call back or not to tell anyone."),
+     25, "It tells you not to call or not to tell anyone."),
     ("authority",
      r"\b(?:police|cbi|trai|customs|arrest|warrant|money laundering|digital arrest)\b",
-     25, "Claims to be police or an official body, or threatens arrest."),
+     25, "It says it is from the police or the government, or talks about arrest."),
     ("prize",
      r"\byou have won\b|\bwinner\b|\blottery\b|\blucky draw\b|\bprize\b|\bcongratulations\b",
-     30, "Claims you have won a prize."),
+     30, "It says you have won a prize."),
 ]
 _COMPILED = [(n, re.compile(p, re.IGNORECASE), pts, why) for n, p, pts, why in _RULES]
 
@@ -59,7 +59,7 @@ def analyze_message(message_text, sender="Unknown"):
     # Signals are stronger together: money + pressure/secrecy is the classic scam shape.
     if "financial" in signals and {"urgency", "secrecy"} & set(signals):
         score += 15
-        reasons.append("Combines a money request with pressure or secrecy, a classic scam pattern.")
+        reasons.append("It asks for money and also rushes you or asks for secrecy. Scammers do this a lot.")
 
     score = min(score, 100)
     if score >= 60:

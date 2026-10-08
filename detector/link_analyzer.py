@@ -38,17 +38,17 @@ def analyze_link(url):
     # 1. Shorteners: exact domain match (the old substring check flagged flipkart.com as "t.co")
     if any(_is_or_subdomain_of(domain, s) for s in SHORTENERS):
         score += 35
-        reasons.append(f"Uses a URL shortener ({domain}), which hides the true destination.")
+        reasons.append("This is a short link. It hides where it really goes.")
 
     # 2. Unusual endings
     if domain.endswith(SUSPICIOUS_TLDS):
         score += 30
-        reasons.append(f"Uses an unusual domain ending ({domain}) often seen in scams.")
+        reasons.append("The website name ends in an unusual way that scammers often use.")
 
     # 3. Raw IP address or many subdomains
     if re.fullmatch(r"\d{1,3}(?:\.\d{1,3}){3}", domain) or domain.count(".") > 3:
         score += 40
-        reasons.append("Uses a raw IP address or an unusually long chain of subdomains.")
+        reasons.append("The link looks strange. It is not a normal website name.")
 
     # 4. Look-alike brand domains (old endswith check let fake-sbi.com pass as "sbi.com")
     for brand, genuine in OFFICIAL.items():
@@ -56,13 +56,13 @@ def analyze_link(url):
         is_genuine = any(_is_or_subdomain_of(domain, g) for g in genuine)
         if mentions_brand and not is_genuine:
             score += 45
-            reasons.append(f"Looks like it imitates {brand.upper()} but is not its official website.")
+            reasons.append(f"The link looks like {brand.upper()}'s website, but it is a fake copy.")
             break
 
     # 5. Scam-style words inside the domain itself
     if SCAM_WORDS & set(tokens):
         score += 25
-        reasons.append("The web address contains words like 'verify', 'update' or 'KYC'.")
+        reasons.append("The link has words like 'verify' or 'update' that scammers like to use.")
 
     return {"url": url, "domain": domain, "link_score": score, "link_reasons": reasons}
 

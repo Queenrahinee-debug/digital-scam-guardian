@@ -3,13 +3,9 @@
 A scam-safety layer for messages, **designed first for elderly people and useful to anyone**.
 It checks a message on the user's own device, then explains in plain language why the message looks risky and what to do.
 
-> **Status: Prototype 1.** A working web demo of the detection approach. It does **not** read WhatsApp or SMS yet, and it does not handle phone calls.
+Built for the **Tata Young Social Innovator Challenge** (Technology for Social Good: *how can an elderly person tell whether a call, link or message is genuine or a scam?*).
 
-<!-- Add screenshots here once taken, for example:
-![Known contact asks for money](docs/screenshots/known-contact.png)
-![Fake KYC link](docs/screenshots/fake-link.png)
-![Normal message](docs/screenshots/normal.png)
--->
+> **Status: Prototype 1 (complete).** A working web demo of the detection engine. It does **not** read WhatsApp or SMS yet, and it does not handle phone calls. See [Architecture](#architecture) for how it is designed to fit existing messaging apps.
 
 ## The problem
 Scammers do not hack elderly people's phones; they persuade them, using urgency, fear, authority and trust.
@@ -26,8 +22,66 @@ Four layers each produce a risk, and a strong signal in any layer raises the fin
 | ML model | Small text classifier used as a supporting signal; counted only when more than 50% confident |
 
 - **Combination:** noisy-OR, `risk = 1 - product(1 - layer_risk x trust)`, not a plain average. A clearly fake link cannot be diluted away by clean-looking text.
-- **Levels:** LOW, SUSPICIOUS, HIGH, each with plain-language reasons and a recommended action.
-- **Wording:** results say "this looks unusual", never "this is a scam". A known contact does not automatically mean safe.
+- **Levels:** LOOKS SAFE, BE CAREFUL, DANGER (internally LOW, SUSPICIOUS, HIGH), each with short reasons and clear advice.
+- **Plain language:** short sentences and everyday words, written after feedback that a first version was too technical. Messages say things like "may have been hacked" or "a scammer may be pretending", never claim certainty, and a known contact is not automatically treated as safe.
+
+## Architecture
+
+![Digital Scam Guardian architecture](docs/architecture.png)
+
+*Solid = built in Prototype 1. Dashed = planned, design only. Vector version: [docs/architecture.svg](docs/architecture.svg).*
+
+| Component | Role | File |
+|---|---|---|
+| Web demo form | Prototype 1 entry point: sender + pasted message, plus example buttons | `frontend/index.html` |
+| Standard input / API | One input format for any source (`POST /api/analyze`) | `backend/main.py` |
+| Rules | Wording signals: urgency, money requests, secrecy, OTP/PIN, threats, authority, prizes | `detector/detector.py` |
+| Sender check | Compares the message with the contact's baseline (sample data) | `detector/contact_analyzer.py` |
+| Link check | Local heuristics on links, no network calls | `detector/link_analyzer.py` |
+| ML model | Small supporting text classifier, trained once per run | `detector/train_model.py` |
+| Risk engine | Combines the layers (noisy-OR), writes reasons and advice | `detector/risk_engine.py` |
+
+**How a message flows:** it enters as `sender + text`, the four layers each return a risk and plain-language reasons, the risk engine combines them into LOW, SUSPICIOUS or HIGH, and the page shows a headline, advice and reasons. Nothing is blocked automatically, and the text is not stored.
+
+**Design choices:**
+- *Platform-independent core:* the engine only sees `sender + text`, so it does not depend on any one messaging app.
+- *Local analysis:* the engine needs no external service, so message text stays inside the app.
+- *Signals combined, not averaged:* a clearly fake link or an unusual money request cannot be diluted by clean-looking wording.
+- *Explain, don't just score:* every result lists its reasons; wording is "this looks unusual", never "this is a scam".
+
+### How it is designed to fit existing messaging apps (design only, not built)
+Encrypted apps such as WhatsApp cannot be read by a server, so a real layer must work **on the user's own device after a message is delivered**. Three routes are planned, each subject to platform permissions and policies (iOS is more restrictive than Android):
+
+| Route | Idea | Notes |
+|---|---|---|
+| Share to Guardian | The user shares a suspicious message from any app into Guardian | User-initiated; needs no special permission |
+| Notification access (Android) | With the user's explicit permission, Guardian reads incoming notification text and shows a warning | Permission and store-policy limits apply |
+| SMS filtering | Integrate with the platform's SMS filtering options | Rules differ by platform; may only cover some senders |
+
+Prototype 1 implements none of these routes; it demonstrates the detection engine that they would all feed.
+
+## Screenshots
+
+**A known contact asks for money, to a new payment ID** (high risk, with plain-language reasons):
+
+<img src="docs/screenshots/01-known-contact-money-request.png" alt="Known contact asks for money" width="380">
+
+**Technical scorecard** (each layer shown separately; the ML signal is deliberately weak and the rules and sender history drive the verdict):
+
+<img src="docs/screenshots/02-scorecard.png" alt="Technical scorecard" width="380">
+
+**Fake bank link:**
+
+<img src="docs/screenshots/03-fake-bank-link.png" alt="Fake bank link" width="380">
+
+**Normal message and a genuine OTP notice** (no false alarm):
+
+<img src="docs/screenshots/04-normal-message.png" alt="Normal message" width="300"> <img src="docs/screenshots/05-genuine-otp-notice.png" alt="Genuine OTP notice" width="300">
+
+**Hinglish scam** and a **known limitation** (a genuine fee message gets a moderate warning):
+
+<img src="docs/screenshots/06-hinglish-scam.png" alt="Hinglish scam" width="300"> <img src="docs/screenshots/07-limitation-genuine-bill.png" alt="Limitation: genuine bill message" width="300">
+
 
 ## Run it
 Run these from the project root.
@@ -57,6 +111,8 @@ python detector/train_model.py                  # ML training info
 | Hold-out (run once, not tuned on) | 32 | 14 | 4 | 14 | 0 | 87.5% | 77.8% | 100% |
 
 On the hold-out set, all 14 scam or suspicious messages were flagged, and 4 of 18 genuine messages received a moderate (SUSPICIOUS) warning. None of the genuine messages was marked HIGH RISK.
+
+Evidence (terminal output): [scenarios](docs/screenshots/08-scenarios.png), [development set](docs/screenshots/09-dev-results.png), [hold-out set](docs/screenshots/10-holdout-results.png), [ML training info](docs/screenshots/11-ml-info.png).
 
 **Please read these numbers carefully.**
 - The sets are small, so results are indicative only. With 32 messages the true accuracy could plausibly lie between roughly 72% and 95%.
@@ -96,7 +152,7 @@ detector/   rules, link checks, sender baseline, ML model, risk engine
 frontend/   web demo page
 data/       labelled messages (dev and hold-out)
 tests/      scenarios and evaluation scripts
-docs/       project documents
+docs/       architecture diagram (PNG + SVG) and screenshots
 ```
 
 ## License

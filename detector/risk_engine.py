@@ -14,7 +14,7 @@ from detector.train_model import get_model
 TRUST = {"rules": 0.9, "sender": 0.9, "link": 0.9}   # ML trust is set from how much data it saw
 HIGH_AT, SUSPICIOUS_AT = 60, 31                      # risk thresholds, matching the 0-39 / 40-69 / 70-100 scale in the UI
 OTP_NOTICE = re.compile(r"\botp\b.{0,80}\bdo(?:n[’']?t| not) share\b|\bdo(?:n[’']?t| not) share\b.{0,40}\botp\b", re.I | re.S)
-PRIORITY = ["payment id", "money", "call", "urgent", "behavior", "password", "arrest", "link", "kyc"]
+PRIORITY = ["fake copy", "new payment id", "send or pay money", "does not usually", "not to call", "rush", "pin, password", "arrest", "link", "kyc"]
 
 
 def _combine(pairs):
@@ -26,23 +26,24 @@ def _combine(pairs):
 
 def _advice(level, sender, known, signals, has_links):
     if level == "LOW":
-        return "No major warning signs found. Stay careful with links and with any request for money."
+        return "We did not find anything worrying. Still, be careful with links and with anyone who asks for money."
     if level == "HIGH" and known:
-        return (f"This looks unusual for {sender}. Their account may be compromised, or someone may be pretending "
-                f"to be them. Call {sender} on a number you already have before doing anything.")
+        return (f"This does not sound like how {sender} usually writes. {sender}'s phone may have been hacked, "
+                f"or a scammer may be pretending to be {sender}. Call {sender} on the number you already have "
+                f"before you do anything.")
     if level == "HIGH" and "financial" in signals and not has_links:
-        return ("Do not send money. Call this person on a number you already know, "
-                "or ask a family member, before doing anything.")
+        return ("Do not send any money. Call this person on a number you already know, "
+                "or ask someone in your family, before you do anything.")
     if level == "HIGH":
-        return ("Do not reply, click links or send money. If it claims to be your bank or the police, "
-                "contact them using the number on your card or their official website.")
+        return ("Do not reply, do not tap any link and do not send money. If it says it is from your bank "
+                "or the police, call them on the number printed on your bank card.")
     who = sender if known else "the sender"
-    return f"Pause before acting. Check with {who} using a number or channel you already trust."
+    return f"Wait before you do anything. Check with {who} by calling a number you already know."
 
 
 def _headline(level, signals, has_links):
     if level == "LOW":
-        return "Message looks safe"
+        return "This message looks safe"
     if "financial" in signals:
         return "Don't send money yet"
     if "credential_request" in signals:
@@ -73,11 +74,11 @@ def evaluate_message_risk(sender, message_text, upi_mentioned=None):
         ml_trust = 0.5 if ml_info["n_total"] >= 500 else 0.2
         ml_safety = round((1 - p) * 100)
         if ml_info["holdout"]:
-            ml_note = f"Supporting signal from a model trained on {ml_info['n_total']} messages ({'; '.join(ml_info['sources'])})."
+            ml_note = f"A small computer helper trained on {ml_info['n_total']} sample messages. It is only a hint."
         else:
-            ml_note = f"Experimental: trained on only {ml_info['n_total']} messages, so treated as a weak signal."
+            ml_note = f"A small computer helper trained on only {ml_info['n_total']} sample messages. We treat it as a weak hint."
     except Exception:
-        ml_risk, ml_trust, ml_safety, ml_note = 0.0, 0.0, None, "Model unavailable."
+        ml_risk, ml_trust, ml_safety, ml_note = 0.0, 0.0, None, "The computer helper is not available."
 
     risk = _combine([(rules["score"], TRUST["rules"]), (who["sender_score"], TRUST["sender"]),
                      (link_risk, TRUST["link"]), (ml_risk, ml_trust)])
@@ -88,7 +89,7 @@ def evaluate_message_risk(sender, message_text, upi_mentioned=None):
     # A genuine OTP notice warns "do not share"; do not treat it as a scam
     if OTP_NOTICE.search(message_text) and "credential_request" not in rules["signals"] and not urls:
         risk = min(risk, 20)
-        reasons = ["This looks like a genuine one-time-password notice. Never share the code with anyone."]
+        reasons = ["This looks like a normal secret-code message from a bank or shop. Never tell this code to anyone."]
 
     if risk >= HIGH_AT:
         level, label, badge, color = "HIGH", "High Risk", "badge-high", "red"
@@ -100,21 +101,21 @@ def evaluate_message_risk(sender, message_text, upi_mentioned=None):
     return {
         "sender": sender, "message": message_text,
         "risk_level": {"HIGH": "HIGH RISK", "SUSPICIOUS": "SUSPICIOUS", "LOW": "LOW RISK"}[level],
-        "badge_class": badge, "score_color": color, "score_label": label,
+        "level_label": {"HIGH": "DANGER", "SUSPICIOUS": "BE CAREFUL", "LOW": "LOOKS SAFE"}[level], "badge_class": badge, "score_color": color, "score_label": label,
         "risk": risk, "reputation_score": 100 - risk,
         "headline": _headline(level, rules["signals"], bool(urls)),
         "recommended_action": _advice(level, sender, who["known_contact"], rules["signals"], bool(urls)),
         "reasons": reasons,
         "technical_breakdown": {
-            "rule_score": {"value": f"{100 - rules['score']} / 100 safety",
-                           "explanation": "Evaluated the text for pressure tactics, financial demands, and isolation cues."},
-            "sender_score": {"value": f"{100 - who['sender_score']} / 100 safety",
-                             "explanation": f"Compared the message with what is normal for {sender}."},
+            "rule_score": {"value": f"{100 - rules['score']} / 100 safe",
+                           "explanation": "Looked at the words for rushing, money requests and secrecy."},
+            "sender_score": {"value": f"{100 - who['sender_score']} / 100 safe",
+                             "explanation": f"Checked if this message is normal for {sender}."},
             "link_score": {
-                "value": f"{max(0, 100 - link_risk)} / 100 safety" if urls else "Not applicable (no link found)",
-                "explanation": "Checked links for look-alike domains, shorteners and odd endings." if urls else "No links in the message to check.",
+                "value": f"{max(0, 100 - link_risk)} / 100 safe" if urls else "No link in the message",
+                "explanation": "Checked the link for fake websites and short links." if urls else "There is no link to check.",
                 "color_style": ("#27ae60" if link_risk < 30 else "#c53030") if urls else "#94a3b8"},
-            "ml_score": {"value": f"{ml_safety} / 100 safety" if ml_safety is not None else "Unavailable",
+            "ml_score": {"value": f"{ml_safety} / 100 safe" if ml_safety is not None else "Not available",
                          "explanation": ml_note},
         },
     }
