@@ -5,7 +5,13 @@ It checks a message on the user's own device, then explains in plain language wh
 
 Built for the **Tata Young Social Innovator Challenge** (Technology for Social Good: *how can an elderly person tell whether a call, link or message is genuine or a scam?*).
 
-> **Status: Prototype 1 (complete).** A working web demo of the detection engine. It does **not** read WhatsApp or SMS yet, and it does not handle phone calls. See [Architecture](#architecture) for how it is designed to fit existing messaging apps.
+> **Status: Prototype 1.** A working web demo of the detection approach. It does **not** read WhatsApp or SMS yet, and it does not handle phone calls.
+
+<!-- Add screenshots here once taken, for example:
+![Known contact asks for money](docs/screenshots/known-contact.png)
+![Fake KYC link](docs/screenshots/fake-link.png)
+![Normal message](docs/screenshots/normal.png)
+-->
 
 ## The problem
 Scammers do not hack elderly people's phones; they persuade them, using urgency, fear, authority and trust.
