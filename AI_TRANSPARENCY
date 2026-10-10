@@ -1,0 +1,72 @@
+# AI Transparency Statement: Digital Scam Guardian (Prototype 1)
+
+This document says plainly which tools and AI assistance were used to build this project, what the AI did, what the author did, and how the work was checked.
+
+- **Author:** RAHINIE GUHA RAY
+- **Project:** Digital Scam Guardian, Prototype 1
+- **Date:** October 2026
+
+## 1. Tools used
+
+| Tool | How it was used |
+|---|---|
+| **Claude** (Anthropic AI assistant, via the claude.ai chat) | Planning, code review and code writing, test data, documentation, diagrams, the slide deck and the competition description. Also used its web search to find published statistics. |
+| **GitHub** | Hosting the repository and version history. |
+| **GitHub Codespaces** | The cloud development environment where all code was run and tested. |
+
+No other AI assistants or tools were used.
+
+## 2. Does the product itself use AI?
+
+**Not generative AI.** The running prototype makes no calls to Claude or any other AI service, and no message text is sent anywhere.
+
+| Component | What it is |
+|---|---|
+| Rules | Hand-written word and pattern rules (urgency, money requests, secrecy, PIN/OTP requests, threats, fake authority, prizes). |
+| Sender check | A comparison with a small, **made-up** contact history stored in a local SQLite file. |
+| Link check | Local rules on link shapes (short links, look-alike domains, odd endings). No network lookups. |
+| Machine-learning helper | A small classical text classifier (TF-IDF with logistic regression, scikit-learn), trained at start-up on the **48 development messages** in this repository. It is used only as a weak hint and counted only when it is more than 50% confident. |
+| Risk engine | Fixed arithmetic that combines the layers (noisy-OR). |
+
+## 3. What the AI did and what the author did
+
+| Area | AI assistance (Claude) | Author |
+|---|---|---|
+| Idea and scope | Discussed options, gave critique and risks | Chose the problem and the idea, decided the scope and what to leave out, and widened the audience beyond elderly users |
+| First code | Prepared a step-by-step guide plan | Wrote and ran the first working version in Codespaces |
+| Code review and fixes | Found bugs (for example, "rs" matching inside "hours", wrong link-shortener and look-alike checks, a hard-coded payment ID, the model retraining on every request) and rewrote training files, plus the test scripts | Ran everything, compared results, and decided what to keep |
+| Wording shown to users | Rewrote the reasons, advice and labels in plain language | Asked for simpler wording after feedback, and tested it with people |
+| Test data | Wrote the 48 development and 32 hold-out messages (all invented, based on common scam types) | Requested them, ran the evaluation once on the hold-out set, and reported the results as they came out |
+| Statistics and sources | Searched for and cross-checked published figures against news reports of official data | Chose what to cite; final responsibility for the sources |
+| Documents | Drafted the README, the architecture diagram, the slide deck and the competition description | Edited them, rearranged the slides, took the screenshots, and decided what to claim |
+| User feedback | Suggested questions to ask | Spoke informally with senior citizens in their family and changed the design based on what they said |
+
+## 4. How the work was checked
+
+- **Everything was run by the author** in Codespaces. The scenario tests and the evaluation script print real pass/fail results and counts (`tests/run_scenarios.py`, `tests/evaluate.py`).
+- **A hold-out set** was kept apart from the rules and the model, and run once. Its results are reported with their weaknesses.
+- **Claims that the code could not support were removed.** For example, model performance figures that no script in the repository produced were not used.
+- **AI errors were found and fixed during the project**, which is why the code and results in this repository differ from the first drafts.
+- **No personal data** was used: all example messages, names and payment IDs are invented, and the contact history is sample data.
+
+## 5. Limitations that come from how it was built
+
+- The development and hold-out messages were **written with AI assistance by the same people who wrote the rules**, so they are less independent than real-world data. The reported results are indicative, not a guarantee.
+- The machine-learning helper was trained on only 48 sample messages and has not been validated on real Indian scam messages.
+- The contact history is scripted sample data, not learned from real conversations.
+- The prototype demonstrates the detection engine. It does not connect to WhatsApp, SMS or phone calls.
+- Feedback from senior citizens was informal and came from a small group, not a formal study.
+
+## 6. Responsible use
+
+Digital Scam Guardian gives warnings, not guarantees. It can miss scams (especially polite ones with no link or pressure) and can warn about genuine messages. It should never be the only protection against fraud, and a person should always check with someone they trust before sending money or sharing a code.
+
+## 7. How to verify this yourself
+
+```
+pip install -r requirements.txt
+python tests/run_scenarios.py                    # demo scenarios with pass/fail
+python tests/evaluate.py data/dev_messages.json  # development set
+python tests/evaluate.py                         # hold-out set
+python detector/train_model.py                   # what the ML helper was trained on
+```
